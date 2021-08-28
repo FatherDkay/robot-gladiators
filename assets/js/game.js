@@ -4,7 +4,7 @@ var playerAttack = 10;
 var playerMoney = 10;
 
 var enemyNames = ['Roborto', 'Amy Android', 'Robo Trumble'];
-var enemyHealth = 50;
+var enemyHealth = randomNumber();
 var enemyAttack = 12;
 
 console.log(enemyNames);
@@ -34,7 +34,10 @@ var fight = function(enemyName) {
     }
 
     // remove enemy's health by subtracting the amount set in the playerAttack variable
-    enemyHealth = enemyHealth - playerAttack;
+   // generate random damage value based on player's attack power
+   var damage = randomNumber(playerAttack - 3, playerAttack);
+   
+   enemyHealth = Math.max(0, enemyHealth - damage);
     console.log(
       playerName + ' attacked ' + enemyName + '. ' + enemyName + ' now has ' + enemyHealth + ' health remaining.'
     );
@@ -44,7 +47,7 @@ var fight = function(enemyName) {
       window.alert(enemyName + ' has died!');
 
       // award player money for winning
-      playerMoney = playerMoney + 20;
+      playerMoney = Math.max(0, playerMoney - 10)
 
       // leave while() loop since enemy is dead
       break;
@@ -53,7 +56,8 @@ var fight = function(enemyName) {
     }
 
     // remove players's health by subtracting the amount set in the enemyAttack variable
-    playerHealth = playerHealth - enemyAttack;
+    var damage = randomNumber(enemyAttack - 3, enemyAttack);
+    playerHealth = Math.max(0, playerHealth - damage);
     console.log(
       enemyName + ' attacked ' + playerName + '. ' + playerName + ' now has ' + playerHealth + ' health remaining.'
     );
@@ -71,9 +75,9 @@ var fight = function(enemyName) {
 // function to start a new game
 var startGame = function(){
      // reset player stats
-  playerHealth = 100;
-  playerAttack = 10;
-  playerMoney = 10;
+     enemyHealth = randomNumber(40, 60);
+     playerAttack = 10;
+     playerMoney = 10;
 
 // fight each enemy-robot by looping over them and fighting them one at a time
 for (var i = 0; i < enemyNames.length; i++) {
@@ -123,6 +127,13 @@ else {
   window.alert("Thank you for playing Robot Gladiators! Come back soon!");
 }
 };
+
+// function to generate a random numeric value
+Var randomNumber = function(min, max) {
+    var value = Math.floor(Math.random() * (max - min + 1) + min);
+  
+    return value;
+  };
 
 // start the game when the page loads
 startGame();
